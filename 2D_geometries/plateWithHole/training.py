@@ -22,8 +22,8 @@ dde.config.set_default_float('float64')
 # Define Parameters
 E = 5
 nu = 0.3
-lmbd = nu * E / ((1 + nu) * (1 - 2*nu))
-mu = 0.5 * E / (1 + nu)
+lmbd = nu / ((1 + nu) * (1 - 2*nu))
+mu = 0.5 / (1 + nu)
 
 # Define the geometry
 rect = dde.geometry.Rectangle([0, 0], [1.0, 1.0])
@@ -71,7 +71,7 @@ def traction_arc22(x, f, _):
 
 
 # Define boundary conditions
-s11_right_bc = dde.icbc.DirichletBC(geom, lambda x: 1.0, boundary_right, component=2)
+s11_right_bc = dde.icbc.DirichletBC(geom, lambda x: 1.0/E, boundary_right, component=2)
 s22_top_bc = dde.icbc.DirichletBC(geom, lambda x: 0, boundary_top, component=3)
 s12_right_bc = dde.icbc.DirichletBC(geom, lambda x: 0, boundary_right, component=4)
 s12_left_bc = dde.icbc.DirichletBC(geom, lambda x: 0, boundary_left, component=4)
@@ -128,11 +128,11 @@ net = dde.nn.PFNN(layers, activation, initializer)
 def modify_output(X, f):
     x, y = X[:, 0:1], X[:, 1:2]
     ux, uy, sx, sy, sxy = f[:, 0:1], f[:, 1:2], f[:, 2:3], f[:, 3:4], f[:, 4:5]
-    ux_new = x * ux * 0.3
-    uy_new = y * uy * 0.127
-    sx_new = sx * 3.6
-    sy_new = sy * 1.5
-    sxy_new = sxy * 1
+    ux_new = x * ux
+    uy_new = y * uy
+    sx_new = sx 
+    sy_new = sy
+    sxy_new = sxy
     return torch.cat((ux_new, uy_new, sx_new, sy_new, sxy_new), dim=1)
 
 
