@@ -1,5 +1,5 @@
 """
-Date: 21/11/2023            Last change: 22/01/2024
+Date: 21/11/2023            Last change: 08/01/2024
 
 PINN Model for linear elasticity analysis of a Perforated strip plate using plane stress condition.
 Reference: " A physics-informed neural network technique based on a modified loss function for computational 2D and 3D
@@ -122,7 +122,7 @@ def pde(x, f):
 data = dde.data.PDE(geom, pde,  [ux_left_bc, uy_bottom_bc,
                                  s11_right_bc, s22_top_bc, s12_right_bc, s12_left_bc, s12_top_bc, s12_bottom_bc,
                                  s1_arc_bc, s2_arc_bc],
-                    num_domain=3000, num_boundary=1000, num_test=5000)
+                    num_domain=4000, num_boundary=1000, num_test=20000)
 
 # ---------- Define the Neural Network parameters ---------- #
 layers = [2, [20] * 5, [20] * 5, [20] * 5, [20] * 5, [20] * 5, 5]
@@ -139,7 +139,7 @@ checkpointer = dde.callbacks.ModelCheckpoint("model3/model", verbose=1, save_bet
 
 # ---------- Train the model with Adam and then with BFGS ---------- #
 model.train(iterations=5000, display_every=1000, callbacks=[checkpointer])
-dde.optimizers.config.set_LBFGS_options(maxiter=45000)
+dde.optimizers.config.set_LBFGS_options(maxiter=25000)
 model.compile("L-BFGS")
 losshistory, train_state = model.train(callbacks=[checkpointer])
 
