@@ -1,5 +1,5 @@
 """
-Date: 21/11/2023            Last change: 08/01/2024
+Date: 21/11/2023            Last change: 22/01/2024
 
 PINN Model for linear elasticity analysis of a Perforated strip plate using plane stress condition.
 Reference: " A physics-informed neural network technique based on a modified loss function for computational 2D and 3D
