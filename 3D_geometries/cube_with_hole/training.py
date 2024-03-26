@@ -203,10 +203,10 @@ data = dde.data.PDE(geom, pde, [s11_x1_bc, s22_y1_bc, s33_z1_bc,
                                 s1_arc_bc, s2_arc_bc, s3_arc_bc],
                     num_domain=0,
                     num_boundary=0,
-                    num_test=7000,
+                    num_test=8000,
                     anchors=coords)
 
-layers = [3, [25] * 9, [25] * 9, [25] * 9, [25] * 9, [25] * 9, [25] * 9, [25] * 9, 9]
+layers = [3, [30] * 9, [30] * 9, [30] * 9, [30] * 9, [30] * 9, [30] * 9, [30] * 9, 9]
 activation = "tanh"
 initializer = "Glorot uniform"
 net = dde.nn.PFNN(layers, activation, initializer)
@@ -244,8 +244,6 @@ model.train(display_every=1000, iterations=200_000, callbacks=[checkpointer])
 model.compile("adam", lr=0.0001, loss_weights=[1, 1, 1, 1, 1, 1, 1, 1, 1, 10, 10, 10,
                                               10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
                                               10, 10, 10])
-model.train(display_every=1000, iterations=200_000, callbacks=[checkpointer])
-dde.optimizers.config.set_LBFGS_options(maxiter=10000)
-model.compile("L-BFGS")
-losshistory, train_state = model.train(callbacks=[checkpointer])
+losshistory, train_state = model.train(display_every=1000, iterations=350_000, callbacks=[checkpointer])
+
 dde.saveplot(losshistory, train_state, issave=True, isplot=True)
