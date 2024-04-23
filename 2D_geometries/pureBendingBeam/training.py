@@ -1,7 +1,6 @@
 """
 PINN Model for linear elasticity analysis of a Pure Bending Beam using displacement boundary conditions,
-and force at end of the beam as in the paper " A physics-informed neural network technique based on a modified loss
-function for computational 2D and 3D solid mechanics " : https://doi.org/10.1007/s00466-022-02252-0
+and force at end of the beam.
 """
 
 import deepxde as dde
@@ -119,8 +118,8 @@ model = dde.Model(data, net)
 checkpointer = dde.callbacks.ModelCheckpoint("model/model", verbose=1, save_better_only=True)
 
 model.compile("adam", lr=0.001, loss_weights=[0.01, 0.01, 0.01, 0.01, 0.01, 1, 1, 1, 1, 1, 1, 1, 1])
-model.train(iterations=1000, display_every=1000, callbacks=[checkpointer])
-dde.optimizers.config.set_LBFGS_options(maxiter=10000)
+model.train(iterations=10000, display_every=1000, callbacks=[checkpointer])
+dde.optimizers.config.set_LBFGS_options(maxiter=15000)
 model.compile("L-BFGS")
 losshistory, train_state = model.train(callbacks=[checkpointer])
 dde.saveplot(losshistory, train_state, issave=True, isplot=True)
