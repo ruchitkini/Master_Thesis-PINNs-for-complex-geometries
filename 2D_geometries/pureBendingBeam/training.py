@@ -118,7 +118,7 @@ model = dde.Model(data, net)
 checkpointer = dde.callbacks.ModelCheckpoint("model/model", verbose=1, save_better_only=True)
 
 model.compile("adam", lr=0.001, loss_weights=[0.01, 0.01, 0.01, 0.01, 0.01, 1, 1, 1, 1, 1, 1, 1, 1])
-model.train(iterations=10000, display_every=1000, callbacks=[checkpointer])
+model.train(iterations=5000, display_every=1000, callbacks=[checkpointer])
 dde.optimizers.config.set_LBFGS_options(maxiter=15000)
 model.compile("L-BFGS")
 losshistory, train_state = model.train(callbacks=[checkpointer])
