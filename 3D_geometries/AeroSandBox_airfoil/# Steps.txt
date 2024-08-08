@@ -1,0 +1,22 @@
+# Steps:
+
+1. lift_forces_aero_tool:	This file is used to extract the lift forces and calculate the pressure.
+
+2. abaqus_mapping: 		This file is used to call the mesh from the Abaqus file and map the pressure from coarse mesh to 				fine mesh.
+
+3. element_surface_setting:	This file extracts all the elements at the bottom surface from Abaqus and revises them correctly to 				be used in Abaqus scripting file to extract the elements and apply the traction force on each face 				in Abaqus.
+
+4. abaqus_script:		This file should be run in Abaqus software along with the provided .step file in 'to_abaqus' 					folder. This file runs the script of force application and meshing. Only fixed BC needs to be 					applied manually and then run the job.
+
+5. GmshToTrainData:		This file extracts the Gmsh mesh from .msh file, to create training points.
+
+6. training: 			Used to train the model
+
+7. prediction:			Used to predict the model
+
+8. InteractivePlot:		Used to call the predicted model and visualize the results
+
+
+model -> has stored model
+to_abaqus -> has abaqus scripting file, and other needed files
+results -> contains all results from the PINN model and Abaqus
